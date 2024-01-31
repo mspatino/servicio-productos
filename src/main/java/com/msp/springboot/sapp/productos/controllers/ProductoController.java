@@ -17,11 +17,12 @@ import com.msp.springboot.sapp.productos.models.service.IProductoService;
 @RestController
 public class ProductoController {
 	
+	//con el env..getProperty("local.server.port") toma el puerto real 
 	@Autowired
 	private Environment env;
 	
 	//*Obtenemos el puerto usando la anotacion Value,
-	//*usando la propiedad server.por del application.properties
+	//*usando la propiedad server.port del application.properties que es cero
 	@Value("${server.port}")
 	private Integer port;
 	
@@ -43,8 +44,20 @@ public class ProductoController {
 		//return productoService.findById(id);
 		Producto producto =  productoService.findById(id);
 		
-		//producto.setPort(Integer.parseInt(env.getProperty("local.server.port")));
-		producto.setPort(port);
+		producto.setPort(Integer.parseInt(env.getProperty("local.server.port")));
+		//producto.setPort(port);
+		
+		//simulamos un fallo
+//		boolean ok = false;
+//		if (!ok) {
+//		 throw new RuntimeException("No se pudo cargar el producto");	
+//		}
+		//vamos a simular una pausa
+//		try {
+//			Thread.sleep(2000L);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 		return producto;
 	}
 
